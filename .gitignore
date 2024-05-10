@@ -1,0 +1,4 @@
+include/cpp_gpt/*
+include/qt/*
+build
+cpp_gpt/src/vc140.pdb
