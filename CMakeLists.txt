@@ -13,7 +13,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 include_directories(${CUDAToolkit_INCLUDE_DIRS} ${TORCH_INCLUDE_DIRS})
 
 # Add the executable
-add_executable(cpp_gpt cpp_gpt/src/main.cpp)  # Ensure all source files are listed here
+add_executable(cpp_gpt cpp_gpt/main.cpp)  # Ensure all source files are listed here
 
 # Link libraries
 target_link_libraries(cpp_gpt "${TORCH_LIBRARIES}" CUDA::cudart)
