@@ -10,7 +10,7 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",  // Set the current working directory
             "environment": [
-                {"name": "PATH", "value": "${env:PATH};${workspaceFolder}/include/cpp_gpt/libtorch/lib"}
+                {"name": "PATH", "value": "${env:PATH};${workspaceFolder}/include/libtorch/lib"}
             ],
             "console": "externalTerminal",  // Can be "integratedTerminal" or "externalTerminal"
             "preLaunchTask": "build",  // Should match the label of your build task in tasks.json

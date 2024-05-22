@@ -3,10 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
-                // "${workspaceFolder}/cpp_gpt/src",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/include/cpp_gpt/libtorch/include",
-                "${workspaceFolder}/include/cpp_gpt/libtorch/include/torch/csrc/api/include"
+                "${workspaceFolder}/include/libtorch/include",
+                "${workspaceFolder}/include/libtorch/include/torch/csrc/api/include"
             ],
             "defines": [
                 "_DEBUG",

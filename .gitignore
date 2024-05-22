@@ -1,4 +1,3 @@
-include/cpp_gpt/*
-include/qt/*
-build
-cpp_gpt/src/vc140.pdb
+GPT/include/*
+GPT/build
+GPT/cpp_gpt/src/vc140.pdb
