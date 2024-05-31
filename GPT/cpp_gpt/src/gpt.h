@@ -9,7 +9,7 @@ struct MultiTokenGPT : torch::nn::Module {
     int num_tokens_to_predict;
 
     MultiTokenGPT(int vocab_size, int max_input_len, int model_dim, int num_decoder_layers, int num_attn_heads, int num_tokens_to_predict, float dropout)
-        : num_tokens_to_predict(num_tokens_to_predict) 
+        : num_tokens_to_predict(num_tokens_to_predict)
     {
         embedding = register_module("embedding", torch::nn::Embedding(vocab_size, model_dim));
         shared_trunk = register_module("shared_trunk", torch::nn::Sequential());

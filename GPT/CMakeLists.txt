@@ -5,7 +5,7 @@ project(cpp_gpt LANGUAGES CXX CUDA)
 find_package(CUDAToolkit REQUIRED)
 
 # Set Torch directory and find the package
-set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp_gpt/libtorch")
+set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/include/libtorch")
 find_package(Torch REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
