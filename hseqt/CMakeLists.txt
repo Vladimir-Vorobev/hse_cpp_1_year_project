@@ -26,6 +26,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         registrationwindow.h registrationwindow.cpp registrationwindow.ui
         authwindow.h authwindow.cpp authwindow.ui
+        history.h
+        griddelete.h
+
 
     )
 # Define target properties for Android with Qt 6 as:
