@@ -15,6 +15,9 @@ public:
     explicit AuthWindow(QWidget *parent = nullptr);
     ~AuthWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     Ui::AuthWindow *ui;
 };

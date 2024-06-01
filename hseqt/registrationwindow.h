@@ -15,6 +15,9 @@ public:
     explicit RegistrationWindow(QWidget *parent = nullptr);
     ~RegistrationWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     Ui::RegistrationWindow *ui;
 };

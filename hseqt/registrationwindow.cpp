@@ -8,6 +8,7 @@ RegistrationWindow::RegistrationWindow(QWidget *parent)
     ui->setupUi(this);
 }
 
+
 RegistrationWindow::~RegistrationWindow()
 {
     delete ui;

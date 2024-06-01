@@ -5,6 +5,10 @@
 #include "QJsonArray"
 #include "QPushButton"
 #include "griddelete.h"
+#include "authwindow.h"
+#include "qlineedit.h"
+#include "registrationwindow.h"
+#include "usersdb.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -95,9 +99,6 @@ void MainWindow::setup_chats()
 
         QPushButton *deleteB = new QPushButton(tr("X"));
         connect(deleteB, &QPushButton::clicked, this, [this, chat_i]() {
-            // GridLayoutUtil::removeColumn(this->chat_list, 1);
-            // GridLayoutUtil::removeColumn(this->chat_list, 0);
-            // delete this->chat_list;
             this->history = delete_chat(chat_i);
             this->chat_n--;
             this->current_chat = std::min(this->current_chat, this->chat_n);
@@ -160,3 +161,56 @@ void MainWindow::ai_response()
     // QListWidgetItem *msg = new QListWidgetItem(text, ui->chatW);
     ui->chatW->addItem(text);
 }
+
+
+void MainWindow::on_loginB_clicked()
+{
+    AuthWindow *authW = new AuthWindow(this);
+    authW->show();
+    this->setEnabled(false);
+    authW->setEnabled(true);
+
+    QLineEdit *loginE = authW->findChild<QLineEdit *>("loginE", Qt::FindDirectChildrenOnly);
+    QLineEdit *passE = authW->findChild<QLineEdit *>("passE", Qt::FindDirectChildrenOnly);
+    QPushButton *logB = authW->findChild<QPushButton *>("logB", Qt::FindDirectChildrenOnly);
+
+    authW->connect(logB, &QPushButton::clicked, this, [this, loginE, passE]() {
+        // if ((loginE->text().toStdString().size() > 3) && (passE->text().toStdString().size() > 5)){
+        //     create_user(loginE->text(), passE->text());
+        // }
+    });
+
+}
+
+
+void MainWindow::on_regB_clicked()
+{
+    RegistrationWindow *regW = new RegistrationWindow(this);
+    regW->show();
+    this->setEnabled(false);
+    regW->setEnabled(true);
+
+    QLineEdit *loginE = regW->findChild<QLineEdit *>("loginE", Qt::FindDirectChildrenOnly);
+    QLineEdit *passE = regW->findChild<QLineEdit *>("passE", Qt::FindDirectChildrenOnly);
+    QPushButton *regB = regW->findChild<QPushButton *>("regB", Qt::FindDirectChildrenOnly);
+
+    regW->connect(regB, &QPushButton::clicked, this, [this, loginE, passE]() {
+        if ((loginE->text().toStdString().size() > 3) && (passE->text().toStdString().size() > 5)){
+            create_user(loginE->text(), passE->text());
+        }
+    });
+}
+
+
+void AuthWindow::closeEvent(QCloseEvent *event)
+{
+    this->parentWidget()->setEnabled(true);
+}
+
+
+void RegistrationWindow::closeEvent(QCloseEvent *event)
+{
+    this->parentWidget()->setEnabled(true);
+}
+
+

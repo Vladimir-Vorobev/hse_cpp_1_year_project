@@ -30,12 +30,18 @@ public:
     void swith_chat(int n);
     void save_chat();
 
-
 private slots:
     void setup_chats();
+
     void on_sendButton_clicked();
+
+    void on_loginB_clicked();
+
+    void on_regB_clicked();
+
 
 private:
     Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H

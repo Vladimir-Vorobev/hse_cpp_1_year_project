@@ -6,15 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>842</width>
-    <height>677</height>
+    <width>840</width>
+    <height>730</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>840</width>
+    <height>730</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -33,9 +39,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>60</y>
       <width>821</width>
-      <height>651</height>
+      <height>661</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
@@ -128,6 +134,12 @@ border-radius: 20px;</string>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>550</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Cascadia Mono</family>
@@ -213,8 +225,8 @@ QListWidget {
             </property>
             <property name="maximumSize">
              <size>
-              <width>16777215</width>
-              <height>16777215</height>
+              <width>539</width>
+              <height>50</height>
              </size>
             </property>
             <property name="font">
@@ -283,6 +295,12 @@ border-radius: 9px;</string>
             <property name="text">
              <string>-----&gt;</string>
             </property>
+            <property name="autoDefault">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -292,10 +310,73 @@ border-radius: 9px;</string>
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>821</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="loginB">
+       <property name="styleSheet">
+        <string notr="true">border-style: solid;
+border-width:1px;
+border-color:black;
+background-color: rgb(48,179,255);
+border-radius: 10px;
+min-height: 30px;
+margin: 0px 15px;</string>
+       </property>
+       <property name="text">
+        <string>Login</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="regB">
+       <property name="styleSheet">
+        <string notr="true">border-style: solid;
+border-width:1px;
+border-color:black;
+background-color: rgb(48,179,255);
+border-radius: 10px;
+min-height: 30px;
+margin: 0px 15px;</string>
+       </property>
+       <property name="text">
+        <string>Register</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="logoutB">
+       <property name="styleSheet">
+        <string notr="true">border-style: solid;
+border-width:1px;
+border-color:black;
+background-color: rgb(48,179,255);
+border-radius: 10px;
+min-height: 30px;
+margin: 0px 15px;</string>
+       </property>
+       <property name="text">
+        <string>Logout</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionchat">
    <property name="text">
     <string>chat</string>
+   </property>
+   <property name="shortcut">
+    <string>Return</string>
    </property>
   </action>
  </widget>
