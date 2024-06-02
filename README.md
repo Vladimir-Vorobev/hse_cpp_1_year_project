@@ -1,3 +1,5 @@
+# Setup
+
 GPT setup for Windows:
 1. Install CMake and MSBuild
 2. Install a release (not debug) version of libtorch to include/cpp_gpt
@@ -6,3 +8,8 @@ GPT setup for Windows:
 5. In case of "CMake error: No CUDA toolset found", copy everything from: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\<VERSION>\extras\visual_studio_integration\MSBuildExtensions to: C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Microsoft\VC\v160\BuildCustomizations
 6. In case of "CMake error: Failed to find nvToolsExt", use this: https://discuss.pytorch.org/t/failed-to-find-nvtoolsext/179635/4
 7. Install https://github.com/nlohmann/json/releases/download/v3.10.5/json.hpp to include/cpp_gpt/json
+
+# Documentation
+
+## Main window
+![main window](docs/mainwindow.png "Main window")

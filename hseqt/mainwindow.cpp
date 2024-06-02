@@ -186,6 +186,11 @@ void MainWindow::on_loginB_clicked()
         }
     });
 
+    connect(this->authW, &AuthWindow::regB_clicked, this, [this](){
+        this->authW->close();
+        this->on_regB_clicked();
+    });
+
 }
 
 
@@ -217,6 +222,11 @@ void MainWindow::on_regB_clicked()
             msgError.exec();
         }
     });
+
+    connect(this->regW, &RegistrationWindow::logB_clicked, this, [this](){
+        this->regW->close();
+        this->on_loginB_clicked();
+    });
 }
 
 
@@ -232,9 +242,7 @@ void RegistrationWindow::closeEvent(QCloseEvent *event)
 }
 
 
-
 void MainWindow::on_logoutB_clicked()
 {
     this->user = "none";
 }
-

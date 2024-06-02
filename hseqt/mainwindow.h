@@ -44,6 +44,7 @@ private slots:
 
     void on_regB_clicked();
 
+    void on_logoutB_clicked();
 
 private:
     Ui::MainWindow *ui;
