@@ -173,7 +173,7 @@ void MainWindow::on_loginB_clicked()
 
     connect(this->authW, &AuthWindow::logB_clicked, this, [this](QString username, QString password) {
         if (get_user(username, password)){
-            qWarning() << "logB";
+            this->user = username;
             QMessageBox msgError;
             msgError.setText("Logged successfully!");
             msgError.setWindowTitle("Notification");
@@ -231,4 +231,10 @@ void RegistrationWindow::closeEvent(QCloseEvent *event)
     this->parentWidget()->setEnabled(true);
 }
 
+
+
+void MainWindow::on_logoutB_clicked()
+{
+    this->user = "none";
+}
 

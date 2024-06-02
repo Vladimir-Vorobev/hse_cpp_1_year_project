@@ -18,3 +18,9 @@ void AuthWindow::on_logB_clicked()
     emit logB_clicked(ui->loginE->text(), ui->passE->text());
 }
 
+
+void AuthWindow::on_regB_clicked()
+{
+    emit regB_clicked();
+}
+

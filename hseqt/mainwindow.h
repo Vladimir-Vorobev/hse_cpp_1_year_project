@@ -26,6 +26,7 @@ public:
     AuthWindow *authW;
     int chat_n = 1;
     int current_chat = 1;
+    QString user="none";
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
