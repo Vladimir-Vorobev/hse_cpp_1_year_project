@@ -6,7 +6,6 @@
 #include "QPushButton"
 #include "griddelete.h"
 #include "authwindow.h"
-#include "qlineedit.h"
 #include "registrationwindow.h"
 #include "usersdb.h"
 #include "QMessageBox"
@@ -16,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->history = read_history();
+    this->history = read_history(user);
     this->setup_chats();
 }
 
@@ -29,7 +28,7 @@ MainWindow::~MainWindow()
 void MainWindow::create_chat()
 {
     save_chat();
-    this->history = add_chat(this->chat_n);
+    this->history = add_chat(this->chat_n, user);
     this->chat_n++;
     this->current_chat = this->chat_n;
     GridLayoutUtil::removeRow(this->chat_list, chat_n - 1);
@@ -47,12 +46,13 @@ void MainWindow::swith_chat(int n)
 
 void MainWindow::save_chat()
 {
-    QJsonObject jObj;
+    QJsonObject jObj = history.object();
+    QJsonObject jObj2;
     for (int i=1; i<=this->chat_n; i++){
-        if (!history[QString::number(i)].isArray()) break;
+        if (!history[user][QString::number(i)].isArray()) break;
 
-        QJsonValue chat = history[QString::number(i)];
-        jObj.insert(QString::number(i), chat);
+        QJsonValue chat = history[user][QString::number(i)];
+        jObj2.insert(QString::number(i), chat);
     }
     QJsonArray chat;
     int i=0;
@@ -60,11 +60,14 @@ void MainWindow::save_chat()
         chat.append(ui->chatW->item(i)->text());
         i++;
     }
-    jObj[QString::number(this->current_chat)] = chat;
+    jObj2[QString::number(this->current_chat)] = chat;
+
+    jObj.remove(user);
+    jObj.insert(user, jObj2);
     QJsonDocument history_new { jObj };
 
     this->history = history_new;
-    save_history(history_new);
+    save_history(history_new, user);
 }
 
 
@@ -77,11 +80,11 @@ void MainWindow::setup_chats()
     this->chat_list = new QGridLayout;
 
     for (int chat_i=1; chat_i<=100; chat_i++){
-        if (!this->history[QString::number(chat_i)].isArray()) break;
+        if (!this->history[user][QString::number(chat_i)].isArray()) break;
         count = chat_i;
 
         if (chat_i == this->current_chat){
-            QJsonArray chat = this->history[QString::number(chat_i)].toArray();
+            QJsonArray chat = this->history[user][QString::number(chat_i)].toArray();
             for (auto message: chat)
             {
                 ui->chatW->addItem(message.toString());
@@ -100,9 +103,9 @@ void MainWindow::setup_chats()
 
         QPushButton *deleteB = new QPushButton(tr("X"));
         connect(deleteB, &QPushButton::clicked, this, [this, chat_i]() {
-            this->history = delete_chat(chat_i);
-            this->chat_n--;
-            this->current_chat = std::min(this->current_chat, this->chat_n);
+            this->history = delete_chat(chat_i, user);
+            // this->chat_n--;
+            // this->current_chat = std::min(this->current_chat, this->chat_n);
             setup_chats();
         });
         deleteB->setStyleSheet(" background-color: rgb(255, 0, 0); border-radius: 4px; height: 30px; max-width: 15px; margin: 5px 5px 0px 5px; font: 11pt 'Cascadia Mono';");
@@ -120,6 +123,7 @@ void MainWindow::setup_chats()
 
     this->chat_list->setAlignment(Qt::AlignmentFlag::AlignTop);
     this->chat_n = count;
+    this->current_chat = std::min(this->current_chat, this->chat_n);
 
     if(this->chat_n == 1){
         this->chat_list->itemAtPosition(0, 1)->widget()->setEnabled(false);
@@ -174,10 +178,15 @@ void MainWindow::on_loginB_clicked()
     connect(this->authW, &AuthWindow::logB_clicked, this, [this](QString username, QString password) {
         if (get_user(username, password)){
             this->user = username;
+            ui->loginB->setEnabled(false);
+            ui->loginB->setText(username);
             QMessageBox msgError;
             msgError.setText("Logged successfully!");
             msgError.setWindowTitle("Notification");
             msgError.exec();
+            read_history(this->user);
+            setup_chats();
+            this->authW->close();
         } else {
             QMessageBox msgError;
             msgError.setText("Wrong username or password");
@@ -209,6 +218,7 @@ void MainWindow::on_regB_clicked()
                 msgError.setText(username + " is already taken, try another one");
                 msgError.setWindowTitle("Notification");
                 msgError.exec();
+                this->regW->close();
             } else {
                 QMessageBox msgError;
                 msgError.setText("New account created");
@@ -245,4 +255,8 @@ void RegistrationWindow::closeEvent(QCloseEvent *event)
 void MainWindow::on_logoutB_clicked()
 {
     this->user = "none";
+    ui->loginB->setEnabled(true);
+    ui->loginB->setText("Login");
+    read_history(this->user);
+    setup_chats();
 }
