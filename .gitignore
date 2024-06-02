@@ -8,3 +8,5 @@ GPT/enwikipages_E/*
 GPT/enwikipages_F/*
 GPT/dataset/*
 GPT/train/*
+include
+hseqt/build
