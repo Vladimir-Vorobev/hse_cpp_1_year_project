@@ -5,7 +5,7 @@
             "name": "Debug my C++ project",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Release/cpp_gpt.exe",
+            "program": "${workspaceFolder}/build/Release/cpp_gpt_duplicate.exe",
             "args": [],  // Add command line arguments here
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",  // Set the current working directory

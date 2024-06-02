@@ -1,6 +1,10 @@
 GPT/include/*
-GPT/build
-GPT/cpp_gpt/src/vc140.pdb
-build
-hseqt/build
-include
+GPT/build/*
+GPT/enwikipages_A/*
+GPT/enwikipages_B/*
+GPT/enwikipages_C/*
+GPT/enwikipages_D/*
+GPT/enwikipages_E/*
+GPT/enwikipages_F/*
+GPT/dataset/*
+GPT/train/*
