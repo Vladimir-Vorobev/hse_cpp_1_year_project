@@ -24,7 +24,7 @@
             "type": "shell",
             "command": "msbuild",
             "args": [
-                "./build/cpp_gpt.sln",
+                "./build/cpp_gpt_duplicate.sln",
                 "/property:GenerateFullPaths=true",
                 "/t:Build",
                 "/p:Configuration=Release"
