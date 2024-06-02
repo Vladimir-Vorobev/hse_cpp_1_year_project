@@ -9,6 +9,7 @@
 #include "qlineedit.h"
 #include "registrationwindow.h"
 #include "usersdb.h"
+#include "QMessageBox"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -165,19 +166,24 @@ void MainWindow::ai_response()
 
 void MainWindow::on_loginB_clicked()
 {
-    AuthWindow *authW = new AuthWindow(this);
-    authW->show();
+    this->authW = new AuthWindow(this);
+    this->authW->show();
     this->setEnabled(false);
-    authW->setEnabled(true);
+    this->authW->setEnabled(true);
 
-    QLineEdit *loginE = authW->findChild<QLineEdit *>("loginE", Qt::FindDirectChildrenOnly);
-    QLineEdit *passE = authW->findChild<QLineEdit *>("passE", Qt::FindDirectChildrenOnly);
-    QPushButton *logB = authW->findChild<QPushButton *>("logB", Qt::FindDirectChildrenOnly);
-
-    authW->connect(logB, &QPushButton::clicked, this, [this, loginE, passE]() {
-        // if ((loginE->text().toStdString().size() > 3) && (passE->text().toStdString().size() > 5)){
-        //     create_user(loginE->text(), passE->text());
-        // }
+    connect(this->authW, &AuthWindow::logB_clicked, this, [this](QString username, QString password) {
+        if (get_user(username, password)){
+            qWarning() << "logB";
+            QMessageBox msgError;
+            msgError.setText("Logged successfully!");
+            msgError.setWindowTitle("Notification");
+            msgError.exec();
+        } else {
+            QMessageBox msgError;
+            msgError.setText("Wrong username or password");
+            msgError.setWindowTitle("Notification");
+            msgError.exec();
+        }
     });
 
 }
@@ -185,18 +191,30 @@ void MainWindow::on_loginB_clicked()
 
 void MainWindow::on_regB_clicked()
 {
-    RegistrationWindow *regW = new RegistrationWindow(this);
-    regW->show();
+    this->regW = new RegistrationWindow(this);
+    this->regW->show();
     this->setEnabled(false);
-    regW->setEnabled(true);
+    this->regW->setEnabled(true);
 
-    QLineEdit *loginE = regW->findChild<QLineEdit *>("loginE", Qt::FindDirectChildrenOnly);
-    QLineEdit *passE = regW->findChild<QLineEdit *>("passE", Qt::FindDirectChildrenOnly);
-    QPushButton *regB = regW->findChild<QPushButton *>("regB", Qt::FindDirectChildrenOnly);
-
-    regW->connect(regB, &QPushButton::clicked, this, [this, loginE, passE]() {
-        if ((loginE->text().toStdString().size() > 3) && (passE->text().toStdString().size() > 5)){
-            create_user(loginE->text(), passE->text());
+    connect(this->regW, &RegistrationWindow::regB_clicked, this, [this](QString username, QString password) {
+        if ((username.size() >= 5) and (password.size() >= 5)){
+            // create_user(username, password);
+            if (!create_user(username, password)) {
+                QMessageBox msgError;
+                msgError.setText(username + " is already taken, try another one");
+                msgError.setWindowTitle("Notification");
+                msgError.exec();
+            } else {
+                QMessageBox msgError;
+                msgError.setText("New account created");
+                msgError.setWindowTitle("Notification");
+                msgError.exec();
+            }
+        } else {
+            QMessageBox msgError;
+            msgError.setText("Username and password must be at least 5 characters long!");
+            msgError.setWindowTitle("Notification");
+            msgError.exec();
         }
     });
 }

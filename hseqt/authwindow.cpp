@@ -12,3 +12,9 @@ AuthWindow::~AuthWindow()
 {
     delete ui;
 }
+
+void AuthWindow::on_logB_clicked()
+{
+    emit logB_clicked(ui->loginE->text(), ui->passE->text());
+}
+

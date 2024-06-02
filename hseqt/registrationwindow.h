@@ -18,6 +18,12 @@ public:
 protected:
     void closeEvent(QCloseEvent *event) override;
 
+signals:
+    void regB_clicked(QString username, QString password);
+
+private slots:
+    void on_regB_clicked();
+
 private:
     Ui::RegistrationWindow *ui;
 };

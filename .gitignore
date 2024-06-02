@@ -2,4 +2,5 @@ GPT/include/*
 GPT/build
 GPT/cpp_gpt/src/vc140.pdb
 build
+hseqt/build
 include
