@@ -18,6 +18,15 @@ public:
 protected:
     void closeEvent(QCloseEvent *event) override;
 
+signals:
+    void logB_clicked(QString username, QString password);
+    void regB_clicked();
+
+private slots:
+    void on_logB_clicked();
+
+    void on_regB_clicked();
+
 private:
     Ui::AuthWindow *ui;
 };

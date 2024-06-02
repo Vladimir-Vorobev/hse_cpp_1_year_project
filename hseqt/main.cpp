@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    const char* SQL = "CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, 'username' TEXT NOT NULL, 'password' TEXT NOT NULL);";
+    const char* SQL = "CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, password TEXT NOT NULL);";
 
     sqlite3 *db = 0;
     char *err = 0;

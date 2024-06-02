@@ -13,3 +13,15 @@ RegistrationWindow::~RegistrationWindow()
 {
     delete ui;
 }
+
+void RegistrationWindow::on_regB_clicked()
+{
+    emit regB_clicked(ui->loginE->text(), ui->passE->text());
+}
+
+
+void RegistrationWindow::on_logB_clicked()
+{
+    emit logB_clicked();
+}
+

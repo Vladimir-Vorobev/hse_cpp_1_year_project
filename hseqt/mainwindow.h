@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "QPushButton"
+#include "authwindow.h"
+#include "registrationwindow.h"
 #include <QJsonDocument>
 #include <QGridLayout>
 
@@ -20,8 +22,11 @@ public:
     QPushButton chats[5];
     QJsonDocument history;
     QGridLayout *chat_list = new QGridLayout;
+    RegistrationWindow *regW;
+    AuthWindow *authW;
     int chat_n = 1;
     int current_chat = 1;
+    QString user="none";
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -39,6 +44,7 @@ private slots:
 
     void on_regB_clicked();
 
+    void on_logoutB_clicked();
 
 private:
     Ui::MainWindow *ui;
