@@ -24,8 +24,8 @@ void create_file(QString user)
     QJsonObject jsonObj1;
 
     QJsonArray jsonArray;
-    jsonArray.append("You/nHello");
-    jsonArray.append("AI/nHi");
+    jsonArray.append("You\nHello");
+    jsonArray.append("AI\nHi");
 
     jsonObj["1"] = jsonArray;
     jsonObj1[user] = jsonObj;

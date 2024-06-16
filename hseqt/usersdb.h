@@ -7,7 +7,6 @@
 #include <string>
 
 static int create_call(void *data, int argc, char **argv, char **azColName) {
-    int i;
     if (argc){
         bool* res = reinterpret_cast<bool*> (data);
         *res = false;
@@ -56,7 +55,6 @@ bool create_user(QString username, QString password)
 
 
 static int get_user_call(void *data, int argc, char **argv, char **azColName) {
-    int i;
     if (argc){
         bool* correct_user = reinterpret_cast<bool*> (data);
         *correct_user = true;

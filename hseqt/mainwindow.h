@@ -8,6 +8,17 @@
 #include <QJsonDocument>
 #include <QGridLayout>
 
+// torch
+#undef slots
+#include "torch/torch.h"
+#define slots Q_SLOTS
+#include <string>
+#include <vector>
+#include "tokenizer.h"
+#include "gpt.h"
+#include "json.hpp"
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -28,12 +39,16 @@ public:
     int current_chat = 1;
     QString user="none";
 
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void ai_response();
     void create_chat();
     void swith_chat(int n);
     void save_chat();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void setup_chats();

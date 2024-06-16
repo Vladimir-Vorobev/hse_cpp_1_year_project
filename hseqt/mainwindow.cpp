@@ -9,6 +9,8 @@
 #include "registrationwindow.h"
 #include "usersdb.h"
 #include "QMessageBox"
+#include <cstdlib>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->history = read_history(user);
     this->setup_chats();
+    qWarning() << "start";
 }
 
 MainWindow::~MainWindow()
@@ -153,7 +156,6 @@ void MainWindow::on_sendButton_clicked()
 
     // QListWidgetItem *msg = new QListWidgetItem(text, ui->chatW);
     ui->chatW->addItem(text);
-    ui->msgEdit->setText("");
 
     ai_response();
 }
@@ -161,10 +163,75 @@ void MainWindow::on_sendButton_clicked()
 
 void MainWindow::ai_response()
 {
-    QString text = "AI\nHi";
+    QString text = ui->msgEdit->toPlainText().trimmed();
+    ui->msgEdit->setText("");
+    QString answer = "AI\n";
 
-    // QListWidgetItem *msg = new QListWidgetItem(text, ui->chatW);
-    ui->chatW->addItem(text);
+    Tokenizer tokenizer("C:/Users/rober/VSProject/hse_cpp_1_year_project/hseqt/vocab.json");
+    int vocab_size = tokenizer.get_vocab_size();
+    int max_input_len = 512;
+    int model_dim = 768;
+    int num_decoder_layers = 12;
+    int num_attn_heads = 12;
+    int num_tokens_to_predict = 1;
+    float dropout = 0.1;
+    int token_number = 10 + std::rand() % 30;
+
+    qWarning() << "before model";
+
+    auto model = std::make_shared<MultiTokenGPT>(vocab_size, max_input_len, model_dim, num_decoder_layers, num_attn_heads, num_tokens_to_predict, dropout);
+
+    qWarning() << "model 2";
+    torch::load(model, "C:/Users/rober/VSProject/hse_cpp_1_year_project/hseqt/multi_token_gpt_epoch_1_batch_780000.pt");
+    qWarning() << "model loaded";
+    model->to(torch::kCUDA);
+    qWarning() << "model cuda";
+
+    ui->chatW->addItem(answer);
+    update();
+
+    std::vector<std::string> input_texts;
+    input_texts.push_back(text.toStdString());
+
+    auto input_tokens = tokenizer.batch_encode(input_texts, 512);
+    input_tokens = input_tokens.to(torch::kCUDA);
+
+
+    std::vector<int64_t> predicted_token_ids;
+    std::unordered_map<int64_t, int> token_frequencies;
+    std::unordered_map<int64_t, int> last_predicted_position;
+    float distance_decay_factor = 0.9f;
+    float frequence_decay_factor = 1.1f;
+
+    for (int i = 0; i < token_number; ++i) {
+        torch::Tensor output = model->forward(input_tokens);
+        qWarning() << i;
+
+        auto logits = output.index({0, 0, torch::indexing::Slice()});
+
+        for (const auto& [token, freq] : token_frequencies) {
+            int current_position = predicted_token_ids.size();
+            int last_position = last_predicted_position[token];
+            int distance = current_position - last_position;
+
+            float penalty = static_cast<float>(freq) * 1.1f * std::pow(distance_decay_factor, distance) * std::pow(frequence_decay_factor, freq);
+            logits.index_put_({token}, logits.index({token}) - penalty);
+        }
+
+        auto predicted_id = torch::argmax(logits, -1).item<int64_t>();
+        predicted_token_ids.push_back(predicted_id);
+        token_frequencies[predicted_id]++;
+        last_predicted_position[predicted_id] = predicted_token_ids.size();
+
+        input_tokens = torch::cat({input_tokens, torch::tensor({{predicted_id}}, torch::kCUDA)}, 1);
+        input_tokens = input_tokens.index({torch::indexing::Slice(), torch::indexing::Slice(-512, torch::indexing::None)});
+
+        // answer = ui->chatW->item(ui->chatW->count()-1)->text();
+        answer += tokenizer.decode(torch::tensor({{predicted_id}}));
+    }
+
+    ui->chatW->item(ui->chatW->count()-1)->setText(answer);
+
 }
 
 
@@ -249,6 +316,11 @@ void AuthWindow::closeEvent(QCloseEvent *event)
 void RegistrationWindow::closeEvent(QCloseEvent *event)
 {
     this->parentWidget()->setEnabled(true);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    save_chat();
 }
 
 

@@ -10,3 +10,4 @@ GPT/dataset/*
 GPT/train/*
 include
 hseqt/build
+hseqt/SQLite3

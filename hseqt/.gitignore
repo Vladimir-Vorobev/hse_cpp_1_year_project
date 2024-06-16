@@ -72,3 +72,6 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 build
+hseqt/SQLite3
+multi_token_gpt_epoch_1_batch_780000.pt
+sqlite3.*

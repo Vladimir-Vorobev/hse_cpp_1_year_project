@@ -1,6 +1,8 @@
 #include "mainwindow.h"
-#include "sqlite3.h"
+#include <SQLite3/sqlite3.h>
 #include <QApplication>
+#undef slots
+#define slots Q_SLOTS
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +25,7 @@ int main(int argc, char *argv[])
         sqlite3_free(err);
         return 0;
     }
+
     sqlite3_close(db);
 
     return a.exec();
